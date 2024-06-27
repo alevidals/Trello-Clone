@@ -9,4 +9,8 @@ public interface BoardService {
     Board save(Board board, Principal user);
 
     List<Board> findAll(Principal user);
+
+    void delete(String id, Principal principal);
+
+    boolean exists(String id);
 }

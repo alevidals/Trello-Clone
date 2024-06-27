@@ -21,11 +21,11 @@ public class Token {
     @Column(unique = true)
     private String token;
 
-    public boolean revoked;
+    private boolean revoked;
 
-    public boolean expired;
+    private boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    public User user;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

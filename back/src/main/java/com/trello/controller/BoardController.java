@@ -36,4 +36,17 @@ public class BoardController {
         return new ResponseEntity<>(BoardMapper.boardToBoardDto(savedBoard), HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteBoard(
+            @PathVariable String id,
+            Principal user
+    ) {
+        if (!boardService.exists(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        boardService.delete(id, user);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }

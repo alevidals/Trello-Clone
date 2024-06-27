@@ -51,4 +51,15 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorDto, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorDto> handleForbiddenException(ForbiddenException ex) {
+        ErrorDto errorDto = ErrorUtils.getErrorDto(ex.getMessage());
+
+        if (ex.getMessage().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(errorDto, HttpStatus.FORBIDDEN);
+    }
 }

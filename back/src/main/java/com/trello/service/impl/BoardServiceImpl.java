@@ -1,5 +1,6 @@
 package com.trello.service.impl;
 
+import com.trello.exception.ForbiddenException;
 import com.trello.model.Board;
 import com.trello.model.User;
 import com.trello.repository.BoardRepository;
@@ -36,5 +37,27 @@ public class BoardServiceImpl implements BoardService {
         }
 
         return boardRepository.findAllByUserId(currentUser.getId());
+    }
+
+    @Override
+    public void delete(String id, Principal user) {
+        User currentUser = SecurityUtils.getCurrentUser(user);
+
+        boolean boardBelongsToUser = boardRepository
+                .findById(id)
+                .map(board -> board.getUser().getId().equals(currentUser.getId()))
+                .orElse(false);
+
+        if (boardBelongsToUser) {
+            boardRepository.deleteById(id);
+            return;
+        }
+
+        throw new ForbiddenException();
+    }
+
+    @Override
+    public boolean exists(String id) {
+        return boardRepository.existsById(id);
     }
 }
