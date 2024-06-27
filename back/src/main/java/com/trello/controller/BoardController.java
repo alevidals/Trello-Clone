@@ -7,12 +7,10 @@ import com.trello.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/boards")
@@ -20,6 +18,12 @@ import java.security.Principal;
 public class BoardController {
 
     private final BoardService boardService;
+
+    @GetMapping
+    public List<BoardDto> getBoards(Principal user) {
+        List<Board> boards = boardService.findAll(user);
+        return boards.stream().map(BoardMapper::boardToBoardDto).toList();
+    }
 
     @PostMapping
     public ResponseEntity<BoardDto> createBoard(
