@@ -24,5 +24,4 @@ public class List {
     @ManyToOne
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
-
 }

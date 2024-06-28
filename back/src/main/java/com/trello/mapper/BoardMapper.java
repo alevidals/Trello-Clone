@@ -1,6 +1,6 @@
 package com.trello.mapper;
 
-import com.trello.dto.BoardDto;
+import com.trello.dto.board.BoardDto;
 import com.trello.model.Board;
 
 public final class BoardMapper {

@@ -1,6 +1,7 @@
 package com.trello.controller;
 
-import com.trello.dto.BoardDto;
+import com.trello.dto.board.BoardDto;
+import com.trello.dto.board.DetailedBoardDto;
 import com.trello.mapper.BoardMapper;
 import com.trello.model.Board;
 import com.trello.service.BoardService;
@@ -23,6 +24,20 @@ public class BoardController {
     public List<BoardDto> getBoards(Principal user) {
         List<Board> boards = boardService.findAll(user);
         return boards.stream().map(BoardMapper::boardToBoardDto).toList();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DetailedBoardDto> getBoard(
+            @PathVariable String id,
+            Principal user
+    ) {
+        if (!boardService.exists(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        DetailedBoardDto detailedBoardDto = boardService.findOne(id, user);
+
+        return new ResponseEntity<>(detailedBoardDto, HttpStatus.OK);
     }
 
     @PostMapping
