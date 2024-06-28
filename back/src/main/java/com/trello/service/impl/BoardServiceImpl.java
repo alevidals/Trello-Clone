@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,16 +49,29 @@ public class BoardServiceImpl implements BoardService {
                 .map(board -> board.getUser().getId().equals(currentUser.getId()))
                 .orElse(false);
 
-        if (boardBelongsToUser) {
-            boardRepository.deleteById(id);
-            return;
+        if (!boardBelongsToUser) {
+            throw new ForbiddenException();
         }
 
-        throw new ForbiddenException();
+        boardRepository.deleteById(id);
+
     }
 
     @Override
     public boolean exists(String id) {
         return boardRepository.existsById(id);
+    }
+
+    @Override
+    public Board update(String id, Board board, Principal user) {
+        User currentUser = SecurityUtils.getCurrentUser(user);
+
+        return boardRepository.findByIdAndUserId(id, currentUser.getId())
+                .map(existingBoard -> {
+                    Optional.ofNullable(board.getTitle()).ifPresent(existingBoard::setTitle);
+
+                    return boardRepository.save(existingBoard);
+                })
+                .orElseThrow(ForbiddenException::new);
     }
 }

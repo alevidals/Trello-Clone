@@ -36,6 +36,22 @@ public class BoardController {
         return new ResponseEntity<>(BoardMapper.boardToBoardDto(savedBoard), HttpStatus.CREATED);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<BoardDto> updateBoard(
+            @PathVariable String id,
+            @RequestBody BoardDto boardDto,
+            Principal user
+    ) {
+        if (!boardService.exists(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Board board = BoardMapper.boardDtoToBoard(boardDto);
+        Board updatedBoard = boardService.update(id, board, user);
+
+        return new ResponseEntity<>(BoardMapper.boardToBoardDto(updatedBoard), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBoard(
             @PathVariable String id,

@@ -13,4 +13,6 @@ public interface BoardService {
     void delete(String id, Principal principal);
 
     boolean exists(String id);
+
+    Board update(String id, Board board, Principal user);
 }
