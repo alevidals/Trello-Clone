@@ -1,6 +1,6 @@
 "use client";
 
-import { register } from "@/app/login/actions";
+import { register } from "@/app/(auth)/actions";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,10 +29,15 @@ export default function RegisterPage() {
 
 	const form = useForm<RegisterForm>({
 		resolver: zodResolver(registerFormSchema),
+		defaultValues: {
+			email: "",
+			password: "",
+			confirmationPassword: "",
+		},
 	});
 
 	return (
-		<main className="min-h-dvh flex items-center justify-center">
+		<>
 			{state.message ? (
 				<Alert variant="destructive" className="w-fit mb-4">
 					<ExclamationTriangleIcon className="h-4 w-4" />
@@ -93,6 +98,6 @@ export default function RegisterPage() {
 					<Button>Register</Button>
 				</form>
 			</Form>
-		</main>
+		</>
 	);
 }

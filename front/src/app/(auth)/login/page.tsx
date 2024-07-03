@@ -1,6 +1,6 @@
 "use client";
 
-import { login } from "@/app/login/actions";
+import { login } from "@/app/(auth)/actions";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,10 +29,14 @@ export default function LoginPage() {
 
 	const form = useForm<LoginForm>({
 		resolver: zodResolver(loginFormSchema),
+		defaultValues: {
+			email: "",
+			password: "",
+		},
 	});
 
 	return (
-		<main className="min-h-dvh flex flex-col items-center justify-center">
+		<>
 			{state.message ? (
 				<Alert variant="destructive" className="w-fit mb-4">
 					<ExclamationTriangleIcon className="h-4 w-4" />
@@ -80,6 +84,6 @@ export default function LoginPage() {
 					<Button>Login</Button>
 				</form>
 			</Form>
-		</main>
+		</>
 	);
 }
