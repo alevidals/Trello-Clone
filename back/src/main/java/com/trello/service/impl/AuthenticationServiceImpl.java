@@ -10,6 +10,7 @@ import com.trello.exception.TokenNotValidException;
 import com.trello.model.Role;
 import com.trello.model.Token;
 import com.trello.model.User;
+import com.trello.repository.TokenRepository;
 import com.trello.service.AuthenticationService;
 import com.trello.service.JwtService;
 import com.trello.service.TokenService;
@@ -34,6 +35,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final TokenRepository tokenRepository;
 
     @Override
     public AuthenticationDto register(RegisterDto registerDto) {
@@ -115,6 +117,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    @Override
+    public void validateToken(HttpServletRequest request) {
+        final String authenticationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (authenticationHeader == null || !authenticationHeader.startsWith("Bearer ")) {
+            throw new RequiredHeaderNotFoundException("The authorization header or Bearer prefix is not present");
+        }
+
+        final String jwt = authenticationHeader.substring(7);
+        final String userEmail = jwtService.extractUsername(jwt);
+
+        if (userEmail == null) {
+            throw new TokenNotValidException("The token provided is not valid");
+        }
+
+        User user = userService.findByEmail(userEmail);
+
+        Boolean isTokenValid = tokenRepository.findByToken(jwt)
+                .map(t -> !t.isExpired() && !t.isRevoked())
+                .orElse(false);
+
+        if (!jwtService.isTokenValid(jwt, user) || !isTokenValid) {
+            throw new TokenNotValidException("The token provided is not valid");
+        }
     }
 
     private void saveUserToken(String jwtToken, User user) {

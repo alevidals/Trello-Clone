@@ -16,4 +16,5 @@ public interface AuthenticationService {
 
     AuthenticationDto refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
+    void validateToken(HttpServletRequest request);
 }

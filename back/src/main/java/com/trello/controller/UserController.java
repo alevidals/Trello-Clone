@@ -24,7 +24,6 @@ public class UserController {
             @RequestBody ChangePasswordDto changePasswordDto,
             Principal connectedUser
     ) {
-        System.out.println(connectedUser);
         userService.changePassword(changePasswordDto, connectedUser);
         return new ResponseEntity<>(HttpStatus.OK);
     }
