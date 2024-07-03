@@ -1,6 +1,6 @@
 "use client";
 
-import { login } from "@/app/login/actions";
+import { register } from "@/app/login/actions";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,27 +12,27 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { loginFormSchema } from "@/lib/schemas";
-import type { LoginForm } from "@/lib/types";
+import { registerFormSchema } from "@/lib/schemas";
+import type { RegisterForm } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useRef } from "react";
 import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
 
-export default function LoginPage() {
-	const [state, formAction] = useFormState(login, {
+export default function RegisterPage() {
+	const [state, formAction] = useFormState(register, {
 		message: "",
 	});
 
 	const formRef = useRef<HTMLFormElement>(null);
 
-	const form = useForm<LoginForm>({
-		resolver: zodResolver(loginFormSchema),
+	const form = useForm<RegisterForm>({
+		resolver: zodResolver(registerFormSchema),
 	});
 
 	return (
-		<main className="min-h-dvh flex flex-col items-center justify-center">
+		<main className="min-h-dvh flex items-center justify-center">
 			{state.message ? (
 				<Alert variant="destructive" className="w-fit mb-4">
 					<ExclamationTriangleIcon className="h-4 w-4" />
@@ -77,7 +77,20 @@ export default function LoginPage() {
 							</FormItem>
 						)}
 					/>
-					<Button>Login</Button>
+					<FormField
+						control={form.control}
+						name="confirmationPassword"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Password confirmation</FormLabel>
+								<FormControl>
+									<Input type="password" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<Button>Register</Button>
 				</form>
 			</Form>
 		</main>
