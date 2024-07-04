@@ -5,11 +5,22 @@ import {
 	REFRESH_TOKEN_EXPIRATION,
 } from "@/lib/constants";
 import { loginFormSchema, registerFormSchema } from "@/lib/schemas";
+import { typedFetch } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 type FormState = {
 	message: string;
+};
+
+type LoginRegisterRequest = {
+	email: string;
+	password: string;
+};
+
+type LoginRegisterResponse = {
+	accessToken: string;
+	refreshToken: string;
 };
 
 export async function login(
@@ -25,26 +36,30 @@ export async function login(
 		};
 	}
 
-	const response = await fetch(`${process.env.BACK_URL}/api/v1/auth/login`, {
+	const response = await typedFetch<
+		LoginRegisterRequest,
+		LoginRegisterResponse
+	>({
+		url: `${process.env.BACK_URL}/api/v1/auth/login`,
 		method: "POST",
-		headers: {
-			"content-type": "application/json",
-		},
-		body: JSON.stringify({
+		body: {
 			email: parsed.data.email,
 			password: parsed.data.password,
-		}),
+		},
+		fetchOptions: {
+			headers: {
+				"content-type": "application/json",
+			},
+		},
 	});
 
 	if (!response.ok) {
-		const { message } = await response.json();
-
 		return {
-			message: message || "Unexpected error",
+			message: response.error,
 		};
 	}
 
-	const { accessToken, refreshToken } = await response.json();
+	const { accessToken, refreshToken } = response.data;
 
 	const cookieStore = cookies();
 
@@ -77,26 +92,25 @@ export async function register(
 		};
 	}
 
-	const response = await fetch(`${process.env.BACK_URL}/api/v1/auth/register`, {
+	const response = await typedFetch<
+		LoginRegisterRequest,
+		LoginRegisterResponse
+	>({
+		url: `${process.env.BACK_URL}/api/v1/auth/register`,
 		method: "POST",
-		headers: {
-			"content-type": "application/json",
-		},
-		body: JSON.stringify({
+		body: {
 			email: parsed.data.email,
 			password: parsed.data.password,
-		}),
+		},
 	});
 
 	if (!response.ok) {
-		const { message } = await response.json();
-
 		return {
-			message: message || "Unexpected error",
+			message: response.error,
 		};
 	}
 
-	const { accessToken, refreshToken } = await response.json();
+	const { accessToken, refreshToken } = response.data;
 
 	const cookieStore = cookies();
 
