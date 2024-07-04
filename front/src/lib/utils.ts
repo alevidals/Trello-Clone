@@ -32,18 +32,25 @@ export async function typedFetch<I, O>(
 ): Promise<FetchResponse<O>> {
 	const { method, url, fetchOptions } = args;
 
-	const headers = {
-		...fetchOptions?.headers,
+	const normalizedHeaders: HeadersInit = Object.fromEntries(
+		Object.entries(fetchOptions?.headers ?? {}).map(([key, value]) => [
+			key.toLowerCase(),
+			value,
+		]),
+	);
+
+	const headers: HeadersInit = {
+		...normalizedHeaders,
 		...((method === "POST" || method === "PUT" || method === "PATCH") &&
-		args.body
-			? { "Content-Type": "application/json" }
-			: {}),
+			args.body && {
+				"content-type": "application/json",
+			}),
 	};
 
 	try {
 		const response = await fetch(url, {
 			...fetchOptions,
-			headers: headers,
+			headers,
 			method,
 			...((method === "POST" || method === "PUT" || method === "PATCH") &&
 				args.body && {
