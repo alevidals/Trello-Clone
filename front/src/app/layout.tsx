@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -18,6 +19,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={`${inter.className} dark`}>
 				{children}
+				<Toaster />
 				{/* <div className="min-h-dvh flex flex-col">
           <header className="h-12 flex items-center justify-center border-b">
             Header
