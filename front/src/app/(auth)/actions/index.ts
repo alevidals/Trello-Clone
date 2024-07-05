@@ -5,11 +5,13 @@ import {
 	REFRESH_TOKEN_EXPIRATION,
 } from "@/lib/constants";
 import { loginFormSchema, registerFormSchema } from "@/lib/schemas";
+import type { LoginForm, RegisterForm } from "@/lib/types";
 import { typedFetch } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 type FormState = {
+	success: boolean;
 	message: string;
 };
 
@@ -23,16 +25,13 @@ type LoginRegisterResponse = {
 	refreshToken: string;
 };
 
-export async function login(
-	prevState: FormState,
-	data: FormData,
-): Promise<FormState> {
-	const formData = Object.fromEntries(data);
-	const parsed = loginFormSchema.safeParse(formData);
+export async function login(data: LoginForm): Promise<FormState> {
+	const parsed = loginFormSchema.safeParse(data);
 
 	if (!parsed.success) {
 		return {
 			message: "Invalid form data",
+			success: false,
 		};
 	}
 
@@ -56,6 +55,7 @@ export async function login(
 	if (!response.ok) {
 		return {
 			message: response.error,
+			success: false,
 		};
 	}
 
@@ -79,16 +79,13 @@ export async function login(
 	redirect("/");
 }
 
-export async function register(
-	prevState: FormState,
-	data: FormData,
-): Promise<FormState> {
-	const formData = Object.fromEntries(data);
-	const parsed = registerFormSchema.safeParse(formData);
+export async function register(data: RegisterForm): Promise<FormState> {
+	const parsed = registerFormSchema.safeParse(data);
 
 	if (!parsed.success) {
 		return {
 			message: "Invalid form data",
+			success: false,
 		};
 	}
 
@@ -107,6 +104,7 @@ export async function register(
 	if (!response.ok) {
 		return {
 			message: response.error,
+			success: false,
 		};
 	}
 

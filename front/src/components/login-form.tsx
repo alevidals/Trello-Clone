@@ -1,7 +1,6 @@
 "use client";
 
 import { login } from "@/app/(auth)/actions";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -15,16 +14,11 @@ import { Input } from "@/components/ui/input";
 import { loginFormSchema } from "@/lib/schemas";
 import type { LoginForm as LoginFormType } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconExclamationCircle } from "@tabler/icons-react";
 import { useRef } from "react";
-import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export function LoginForm() {
-	const [state, formAction] = useFormState(login, {
-		message: "",
-	});
-
 	const formRef = useRef<HTMLFormElement>(null);
 
 	const form = useForm<LoginFormType>({
@@ -35,25 +29,21 @@ export function LoginForm() {
 		},
 	});
 
+	async function handleSubmit(data: LoginFormType) {
+		const result = await login(data);
+
+		if (result && !result.success) {
+			toast.error(result.message);
+		}
+	}
+
 	return (
 		<>
-			{state.message ? (
-				<Alert variant="destructive" className="w-fit mb-4">
-					<IconExclamationCircle className="h-4 w-4" />
-					<AlertTitle>Error</AlertTitle>
-					<AlertDescription>{state.message}</AlertDescription>
-				</Alert>
-			) : null}
 			<Form {...form}>
 				<form
 					ref={formRef}
 					className="space-y-3"
-					onSubmit={(event) => {
-						event.preventDefault();
-						form.handleSubmit(() =>
-							formAction(new FormData(formRef.current as HTMLFormElement)),
-						)(event);
-					}}
+					onSubmit={form.handleSubmit(handleSubmit)}
 				>
 					<FormField
 						control={form.control}
