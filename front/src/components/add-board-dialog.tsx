@@ -1,6 +1,6 @@
 "use client";
 
-import { addBoard } from "@/app/actions";
+import { addBoard } from "@/app/(dashboard)/actions";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -92,13 +92,10 @@ function AddBoardForm(props: AddBoardFormProps) {
 	});
 
 	async function handleSubmit(data: AddBoardFormType) {
-		const { message, success } = await addBoard(data);
+		const result = await addBoard(data);
 
-		if (success) {
-			toast.success(message);
-		} else {
-			toast.error(message);
-			return;
+		if (result && !result.success) {
+			toast.error(result.message);
 		}
 
 		setOpen(false);

@@ -15,7 +15,7 @@ export function BoardsList(props: Props) {
 					<Link
 						className="p-2 h-24 w-36 rounded-md border hover:border-white transition-colors duration-200"
 						key={board.id}
-						href={`/board/${board.id}`}
+						href={`/boards/${board.id}`}
 					>
 						<span className="text-sm ">{board.title}</span>
 					</Link>

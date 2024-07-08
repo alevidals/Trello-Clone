@@ -3,8 +3,8 @@
 import { addBoardFormSchema } from "@/lib/schemas";
 import type { AddBoardForm } from "@/lib/types";
 import { typedFetch } from "@/lib/utils";
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 type FormState = {
 	message: string;
@@ -52,9 +52,11 @@ export async function addBoard(data: AddBoardForm): Promise<FormState> {
 		};
 	}
 
-	revalidatePath("/");
-	return {
-		message: "Board created successfully",
-		success: true,
-	};
+	redirect(`/boards/${response.data.id}`);
+
+	// revalidatePath("/");
+	// return {
+	// 	message: "Board created successfully",
+	// 	success: true,
+	// };
 }
