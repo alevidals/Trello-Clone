@@ -14,7 +14,7 @@ export default async function BoardPage(props: Props) {
 
 	return (
 		<div className="h-full flex flex-col">
-			<h1 className="text-3xl font-bold mb-4">{board.title}</h1>
+			<h1 className="text-2xl font-bold mb-4">{board.title}</h1>
 			<Lists lists={board.lists} />
 		</div>
 	);
