@@ -1,4 +1,4 @@
-import { List } from "@/components/list";
+import { Lists } from "@/components/lists";
 import { getBoard } from "@/services/boards";
 
 type Props = {
@@ -15,11 +15,7 @@ export default async function BoardPage(props: Props) {
 	return (
 		<div className="h-full flex flex-col">
 			<h1 className="text-3xl font-bold mb-4">{board.title}</h1>
-			<div className="flex overflow-auto gap-x-4 flex-1 pb-3 mb-3">
-				{board.lists.map((list) => (
-					<List key={list.id} list={list} />
-				))}
-			</div>
+			<Lists lists={board.lists} />
 		</div>
 	);
 }
