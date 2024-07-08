@@ -1,6 +1,6 @@
 "use client";
 
-import { addBoard } from "@/app/(dashboard)/actions";
+import { addBoard } from "@/app/(dashboard)/boards/_actions";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,

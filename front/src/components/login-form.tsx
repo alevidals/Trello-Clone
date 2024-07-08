@@ -1,6 +1,6 @@
 "use client";
 
-import { login } from "@/app/(auth)/actions";
+import { login } from "@/app/(auth)/_actions";
 import { Button } from "@/components/ui/button";
 import {
 	Form,

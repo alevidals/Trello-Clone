@@ -1,4 +1,4 @@
-import type { getBoards } from "@/lib/services";
+import type { getBoards } from "@/services/boards";
 import Link from "next/link";
 
 type Props = {

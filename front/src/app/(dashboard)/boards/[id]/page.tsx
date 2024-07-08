@@ -1,5 +1,5 @@
 import { List } from "@/components/list";
-import { getBoard } from "@/lib/services";
+import { getBoard } from "@/services/boards";
 
 type Props = {
 	params: {

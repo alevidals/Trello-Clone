@@ -1,4 +1,4 @@
-import type { getBoard } from "@/lib/services";
+import type { getBoard } from "@/services/boards";
 
 type Props = {
 	list: Awaited<ReturnType<typeof getBoard>>["lists"][number];
