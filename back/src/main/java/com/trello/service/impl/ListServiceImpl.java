@@ -1,5 +1,6 @@
 package com.trello.service.impl;
 
+import com.trello.exception.ItemNotFoundException;
 import com.trello.repository.ListRepository;
 import com.trello.service.ListService;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,12 @@ public class ListServiceImpl implements ListService {
     @Override
     public List<com.trello.model.List> findByBoardId(String boardId) {
         return listRepository.findAllByBoardId(boardId);
+    }
+
+    @Override
+    public com.trello.model.List findOne(String id) {
+        return listRepository
+                .findById(id)
+                .orElseThrow(() -> new ItemNotFoundException("List not found with id " + id));
     }
 }

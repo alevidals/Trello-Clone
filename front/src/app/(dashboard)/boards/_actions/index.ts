@@ -53,10 +53,4 @@ export async function addBoard(data: AddBoardForm): Promise<FormState> {
 	}
 
 	redirect(`/boards/${response.data.id}`);
-
-	// revalidatePath("/");
-	// return {
-	// 	message: "Board created successfully",
-	// 	success: true,
-	// };
 }

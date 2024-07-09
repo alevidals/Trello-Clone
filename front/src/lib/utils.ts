@@ -68,7 +68,12 @@ export async function typedFetch<I, O>(
 			};
 		}
 
-		const data: O = await response.json();
+		const contentType = response.headers.get("content-type");
+		let data: O = {} as O;
+
+		if (contentType?.includes("application/json")) {
+			data = await response.json();
+		}
 
 		return {
 			ok: true,

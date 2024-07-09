@@ -38,42 +38,40 @@ export function LoginForm() {
 	}
 
 	return (
-		<>
-			<Form {...form}>
-				<form
-					ref={formRef}
-					className="space-y-3"
-					onSubmit={form.handleSubmit(handleSubmit)}
-				>
-					<FormField
-						control={form.control}
-						name="email"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Email</FormLabel>
-								<FormControl>
-									<Input type="email" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="password"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Password</FormLabel>
-								<FormControl>
-									<Input type="password" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<Button>Login</Button>
-				</form>
-			</Form>
-		</>
+		<Form {...form}>
+			<form
+				ref={formRef}
+				className="space-y-3"
+				onSubmit={form.handleSubmit(handleSubmit)}
+			>
+				<FormField
+					control={form.control}
+					name="email"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input type="email" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="password"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Password</FormLabel>
+							<FormControl>
+								<Input type="password" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<Button>Login</Button>
+			</form>
+		</Form>
 	);
 }

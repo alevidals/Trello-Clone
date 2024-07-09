@@ -38,8 +38,6 @@ public class BoardServiceImpl implements BoardService {
     public List<Board> findAll(Principal user) {
         User currentUser = SecurityUtils.getCurrentUser(user);
 
-        System.out.println(currentUser.getRole());
-
         if (UserUtils.isAdmin(currentUser)) {
             return boardRepository.findAll();
         }

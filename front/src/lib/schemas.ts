@@ -19,3 +19,8 @@ export const registerFormSchema = z
 export const addBoardFormSchema = z.object({
 	title: z.string().min(1),
 });
+
+export const addCardFormSchema = z.object({
+	title: z.string(),
+	description: z.string().optional(),
+});

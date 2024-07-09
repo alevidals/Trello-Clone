@@ -62,4 +62,11 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorDto, HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(ItemNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleItemNotFoundException(ForbiddenException ex) {
+        ErrorDto errorDto = ErrorUtils.getErrorDto(ex.getMessage());
+
+        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+    }
 }
