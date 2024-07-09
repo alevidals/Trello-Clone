@@ -17,5 +17,7 @@ public interface BoardService {
 
     Board update(String id, Board board, Principal user);
 
-    DetailedBoardDto findOne(String id, Principal user);
+    Board findOne(String id, Principal user);
+
+    DetailedBoardDto findOneDetailed(String id, Principal user);
 }

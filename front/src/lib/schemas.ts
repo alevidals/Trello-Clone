@@ -24,3 +24,7 @@ export const addCardFormSchema = z.object({
 	title: z.string(),
 	description: z.string().optional(),
 });
+
+export const addListFormSchema = z.object({
+	title: z.string(),
+});

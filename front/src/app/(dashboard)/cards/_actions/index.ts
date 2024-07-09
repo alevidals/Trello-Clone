@@ -40,7 +40,7 @@ export async function addCard(args: AddCardArgs): Promise<FormState> {
 		};
 	}
 
-	const cookiesStore = cookies();
+	const cookieStore = cookies();
 
 	const response = await typedFetch<AddCardRequest, AddCardResponse>({
 		url: `${process.env.BACK_URL}/api/v1/cards`,
@@ -51,7 +51,7 @@ export async function addCard(args: AddCardArgs): Promise<FormState> {
 		},
 		fetchOptions: {
 			headers: {
-				Authorization: `Bearer ${cookiesStore.get("access-token")?.value}`,
+				Authorization: `Bearer ${cookieStore.get("access-token")?.value}`,
 			},
 		},
 	});
@@ -72,14 +72,14 @@ export async function addCard(args: AddCardArgs): Promise<FormState> {
 }
 
 export async function deleteCard(id: string): Promise<FormState> {
-	const cookiesStore = cookies();
+	const cookieStore = cookies();
 
 	const response = await typedFetch<null, null>({
 		url: `${process.env.BACK_URL}/api/v1/cards/${id}`,
 		method: "DELETE",
 		fetchOptions: {
 			headers: {
-				Authorization: `Bearer ${cookiesStore.get("access-token")?.value}`,
+				Authorization: `Bearer ${cookieStore.get("access-token")?.value}`,
 			},
 		},
 	});

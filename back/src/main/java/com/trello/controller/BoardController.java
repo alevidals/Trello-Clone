@@ -35,7 +35,7 @@ public class BoardController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        DetailedBoardDto detailedBoardDto = boardService.findOne(id, user);
+        DetailedBoardDto detailedBoardDto = boardService.findOneDetailed(id, user);
 
         return new ResponseEntity<>(detailedBoardDto, HttpStatus.OK);
     }

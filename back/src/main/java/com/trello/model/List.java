@@ -21,7 +21,10 @@ public class List {
     @Column(nullable = false)
     private String title;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
+
+    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL)
+    private java.util.List<Card> cards;
 }

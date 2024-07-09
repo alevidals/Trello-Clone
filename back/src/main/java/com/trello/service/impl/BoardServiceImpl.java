@@ -81,7 +81,15 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public DetailedBoardDto findOne(String id, Principal user) {
+    public Board findOne(String id, Principal user) {
+        User currentUser = SecurityUtils.getCurrentUser(user);
+
+        return boardRepository.findByIdAndUserId(id, currentUser.getId())
+                .orElseThrow(ForbiddenException::new);
+    }
+
+    @Override
+    public DetailedBoardDto findOneDetailed(String id, Principal user) {
         User currentUser = SecurityUtils.getCurrentUser(user);
 
         Board board = boardRepository.findByIdAndUserId(id, currentUser.getId())

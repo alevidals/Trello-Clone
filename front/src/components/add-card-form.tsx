@@ -17,11 +17,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 type Props = {
-	listId: string;
+	id: string;
 };
 
 export function AddCardForm(props: Props) {
-	const { listId } = props;
+	const { id } = props;
 
 	const formRef = useRef<HTMLFormElement>(null);
 
@@ -41,7 +41,7 @@ export function AddCardForm(props: Props) {
 
 		const { success, message } = await addCard({
 			data,
-			listId,
+			listId: id,
 		});
 
 		if (success) {
