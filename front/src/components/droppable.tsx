@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { useDroppable } from "@dnd-kit/core";
 import type { ReactNode } from "react";
 
@@ -9,13 +10,19 @@ type Props = {
 };
 
 export function Droppable(props: Props) {
-	const { setNodeRef } = useDroppable({
+	const { setNodeRef, isOver } = useDroppable({
 		id: props.id,
 		data: props.data,
 	});
 
 	return (
-		<div ref={setNodeRef} className={props.className}>
+		<div
+			ref={setNodeRef}
+			className={cn(props.className, {
+				"shadow-2xl shadow-indigo-800/20 transition-shadow duration-300 ease-in-out":
+					isOver,
+			})}
+		>
 			{props.children}
 		</div>
 	);

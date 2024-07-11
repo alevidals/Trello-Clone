@@ -22,7 +22,8 @@
 	},
 	"javascript": {
 		"formatter": {
-			"trailingCommas": "all"
+			"trailingCommas": "all",
+			"indentStyle": "space"
 		}
 	}
 }
