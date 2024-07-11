@@ -54,3 +54,26 @@ export async function addBoard(data: AddBoardForm): Promise<FormState> {
 
 	redirect(`/boards/${response.data.id}`);
 }
+
+export async function deleteBoard(id: string): Promise<FormState> {
+	const cookiesStore = cookies();
+
+	const response = await typedFetch<AddBoardRequest, AddBoardResponse>({
+		url: `${process.env.BACK_URL}/api/v1/boards/${id}`,
+		method: "DELETE",
+		fetchOptions: {
+			headers: {
+				Authorization: `Bearer ${cookiesStore.get("access-token")?.value}`,
+			},
+		},
+	});
+
+	if (!response.ok) {
+		return {
+			message: response.error,
+			success: false,
+		};
+	}
+
+	redirect("/");
+}

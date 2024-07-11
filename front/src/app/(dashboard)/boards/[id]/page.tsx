@@ -1,3 +1,4 @@
+import { DeleteBoardButton } from "@/components/delete-board-button";
 import { Lists } from "@/components/lists";
 import { getBoard } from "@/services/boards";
 
@@ -14,7 +15,10 @@ export default async function BoardPage(props: Props) {
 
 	return (
 		<div className="h-full flex flex-col">
-			<h1 className="text-2xl font-bold mb-4">{board.title}</h1>
+			<div className="flex items-center justify-between">
+				<h1 className="text-2xl font-bold mb-4">{board.title}</h1>
+				<DeleteBoardButton id={params.id} />
+			</div>
 			<Lists lists={board.lists} />
 		</div>
 	);
