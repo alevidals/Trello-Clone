@@ -1,7 +1,9 @@
 "use server";
 
 import {
+	ACCESS_TOKEN_COOKIE,
 	ACCESS_TOKEN_EXPIRATION,
+	REFRESH_TOKEN_COOKIE,
 	REFRESH_TOKEN_EXPIRATION,
 } from "@/lib/constants";
 import { loginFormSchema, registerFormSchema } from "@/lib/schemas";
@@ -126,4 +128,23 @@ export async function register(data: RegisterForm): Promise<FormState> {
 	});
 
 	redirect("/");
+}
+
+export async function logout() {
+	const cookieStore = cookies();
+
+	await typedFetch<null, null>({
+		url: `${process.env.BACK_URL}/api/v1/auth/logout`,
+		method: "POST",
+		fetchOptions: {
+			headers: {
+				Authorization: `Bearer ${cookieStore.get(ACCESS_TOKEN_COOKIE)?.value}`,
+			},
+		},
+	});
+
+	cookieStore.delete(ACCESS_TOKEN_COOKIE);
+	cookieStore.delete(REFRESH_TOKEN_COOKIE);
+
+	redirect("/login");
 }
