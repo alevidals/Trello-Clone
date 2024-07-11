@@ -1,7 +1,7 @@
 "use server";
 
-import { addCardFormSchema } from "@/lib/schemas";
-import type { AddCardForm } from "@/lib/types";
+import { addCardFormSchema, updateCardSchema } from "@/lib/schemas";
+import type { AddCardForm, UpdateCard } from "@/lib/types";
 import { typedFetch } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
@@ -16,16 +16,27 @@ type AddCardRequest = {
 	listId: string;
 };
 
-type AddCardResponse = {
+type AddUpdateCardResponse = {
 	id: string;
 	title: string;
 	description: string | null;
 	listId: string;
 };
 
+type UpdateCardRequest = {
+	title: string | null;
+	description: string | null;
+	listId: string | null;
+};
+
 type AddCardArgs = {
 	data: AddCardForm;
 	listId: string;
+};
+
+type UpdateCardArgs = {
+	cardId: string;
+	data: UpdateCard;
 };
 
 export async function addCard(args: AddCardArgs): Promise<FormState> {
@@ -42,7 +53,7 @@ export async function addCard(args: AddCardArgs): Promise<FormState> {
 
 	const cookieStore = cookies();
 
-	const response = await typedFetch<AddCardRequest, AddCardResponse>({
+	const response = await typedFetch<AddCardRequest, AddUpdateCardResponse>({
 		url: `${process.env.BACK_URL}/api/v1/cards`,
 		method: "POST",
 		body: {
@@ -95,6 +106,48 @@ export async function deleteCard(id: string): Promise<FormState> {
 
 	return {
 		message: "Card deleted successfully",
+		success: true,
+	};
+}
+
+export async function updateCard(args: UpdateCardArgs): Promise<FormState> {
+	const parsed = updateCardSchema.safeParse(args.data);
+
+	if (!parsed.success) {
+		return {
+			message: "Invalid form data",
+			success: false,
+		};
+	}
+
+	const cookieStore = cookies();
+
+	const response = await typedFetch<UpdateCardRequest, AddUpdateCardResponse>({
+		url: `${process.env.BACK_URL}/api/v1/cards/${args.cardId}`,
+		method: "PATCH",
+		body: {
+			title: parsed.data?.title,
+			description: parsed.data?.description,
+			listId: parsed.data?.listId,
+		},
+		fetchOptions: {
+			headers: {
+				Authorization: `Bearer ${cookieStore.get("access-token")?.value}`,
+			},
+		},
+	});
+
+	if (!response.ok) {
+		return {
+			message: response.error,
+			success: false,
+		};
+	}
+
+	revalidatePath("/");
+
+	return {
+		message: "Card updated successfully",
 		success: true,
 	};
 }

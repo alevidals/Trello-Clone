@@ -79,6 +79,13 @@ public class CardServiceImpl implements CardService {
                     Optional.ofNullable(card.getTitle()).ifPresent(existingCard::setTitle);
                     Optional.ofNullable(card.getDescription()).ifPresent(existingCard::setDescription);
 
+                    if (card.getList().getId() != null) {
+                        com.trello.model.List list = listService
+                                .findOne(card.getList().getId());
+
+                        existingCard.setList(list);
+                    }
+
                     return cardRepository.save(existingCard);
                 })
                 .orElseThrow(ForbiddenException::new);

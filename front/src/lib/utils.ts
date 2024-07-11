@@ -52,6 +52,7 @@ export async function typedFetch<I, O>(
 			...fetchOptions,
 			headers,
 			method,
+			cache: "no-cache",
 			...((method === "POST" || method === "PUT" || method === "PATCH") &&
 				args.body && {
 					body: JSON.stringify(args.body),

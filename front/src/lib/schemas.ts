@@ -23,6 +23,13 @@ export const addBoardFormSchema = z.object({
 export const addCardFormSchema = z.object({
 	title: z.string(),
 	description: z.string().optional(),
+	listId: z.string().optional(),
+});
+
+export const updateCardSchema = z.object({
+	title: z.string().nullable(),
+	description: z.string().nullable(),
+	listId: z.string().nullable(),
 });
 
 export const addListFormSchema = z.object({

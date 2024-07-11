@@ -1,3 +1,4 @@
+import type { List } from "@/lib/types";
 import { typedFetch } from "@/lib/utils";
 import { cookies } from "next/headers";
 
@@ -5,18 +6,6 @@ type GetBoardsResponse = {
 	id: string;
 	title: string;
 }[];
-
-type Card = {
-	id: string;
-	title: string;
-	description: string;
-};
-
-type List = {
-	id: string;
-	title: string;
-	cards: Card[];
-};
 
 type GetBoardResponse = {
 	id: string;

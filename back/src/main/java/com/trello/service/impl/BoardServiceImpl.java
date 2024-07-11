@@ -102,6 +102,7 @@ public class BoardServiceImpl implements BoardService {
                                     .id(card.getId())
                                     .title(card.getTitle())
                                     .description(card.getDescription())
+                                    .listId(card.getList().getId())
                                     .build())
                             .toList();
 
