@@ -1,8 +1,8 @@
-import type { getBoards } from "@/services/boards";
+import type { Board } from "@/lib/types";
 import Link from "next/link";
 
 type Props = {
-	boards: Awaited<ReturnType<typeof getBoards>>;
+	boards: Board[];
 };
 
 export function BoardsList(props: Props) {

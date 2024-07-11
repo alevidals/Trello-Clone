@@ -5,6 +5,7 @@ import type { AddCardForm, UpdateCard } from "@/lib/types";
 import { typedFetch } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import type { z } from "zod";
 
 type FormState = {
 	message: string;
@@ -23,11 +24,7 @@ type AddUpdateCardResponse = {
 	listId: string;
 };
 
-type UpdateCardRequest = {
-	title: string | null;
-	description: string | null;
-	listId: string | null;
-};
+type UpdateCardRequest = z.infer<typeof updateCardSchema>;
 
 type AddCardArgs = {
 	data: AddCardForm;
@@ -126,9 +123,9 @@ export async function updateCard(args: UpdateCardArgs): Promise<FormState> {
 		url: `${process.env.BACK_URL}/api/v1/cards/${args.cardId}`,
 		method: "PATCH",
 		body: {
-			title: parsed.data?.title,
-			description: parsed.data?.description,
-			listId: parsed.data?.listId,
+			title: parsed.data.title,
+			description: parsed.data.description,
+			listId: parsed.data.title,
 		},
 		fetchOptions: {
 			headers: {

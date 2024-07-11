@@ -51,8 +51,8 @@ export function DeleteBoardButton(props: Props) {
 		return (
 			<AlertDialog open={open} onOpenChange={setOpen}>
 				<AlertDialogTrigger asChild>
-					<Button size="icon" variant="ghost" className="w-6 h-6">
-						<IconTrash className="w-4 h-4 text-destructive" />
+					<Button size="icon" variant="ghost">
+						<IconTrash className="text-destructive" />
 					</Button>
 				</AlertDialogTrigger>
 				<AlertDialogContent>
@@ -78,8 +78,8 @@ export function DeleteBoardButton(props: Props) {
 	return (
 		<Drawer open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button size="icon" variant="ghost" className="w-6 h-6">
-					<IconTrash className="w-4 h-4 text-destructive" />
+				<Button size="icon" variant="ghost">
+					<IconTrash className="text-destructive" />
 				</Button>
 			</DrawerTrigger>
 			<DrawerContent>
